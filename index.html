@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Countdown & Love Letter 💌</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      color: white;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    #countdown {
+      font-size: 2.3em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+
+    /* Floating hearts */
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* 🎵 Music Button */
+    #music-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      font-size: 20px;
+      color: white;
+      backdrop-filter: blur(5px);
+      transition: transform 0.2s ease;
+    }
+
+    #music-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* 💌 Envelope */
+    .envelope-container {
+      perspective: 1000px;
+      margin-top: 30px;
+    }
+
+    .envelope {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100px;
+      background: #fff;
+      border: 2px solid #fff;
+      border-bottom: none;
+      border-radius: 5px 5px 0 0;
+      transform-origin: top;
+      transform: rotateX(0deg);
+      transition: transform 1s;
+    }
+
+    .body {
+      position: absolute;
+      top: 50px;
+      width: 300px;
+      height: 150px;
+      background: #fff;
+      border-radius: 0 0 5px 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .letter {
+      width: 260px;
+      height: 140px;
+      background: #ffe6f0;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+      color: #333;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(-180deg);
+    }
+
+    .envelope.open .letter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter h2 {
+      margin-top: 0;
+      color: #e91e63;
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <!-- 🎵 Background Music -->
+  <audio id="bgm" loop>
+    <source src="till.mp3" type="audio/mpeg">
+  </audio>
+  <button id="music-btn">🔇</button>
+
+  <h1><span id="event-name">Our Monthsary 💕</span></h1>
+  <div id="countdown">Loading...</div>
+  <p>Distance means so little when someone means so much 💞</p>
+
+  <!-- 💌 Envelope -->
+  <div class="envelope-container">
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+      <div class="body">
+        <div class="letter">
+          <h2>Hi Baby 💖</h2>
+          <p>I just wanted to say… I love you so much! Can’t wait to see you 💌</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Made with ❤️ by us</footer>
+
+  <script>
+    // 🎯 Countdown
+    const eventName = "Our Monthsary 💕";
+    const targetDate = new Date("2025-12-06T00:00:00");
+    document.getElementById("event-name").textContent = eventName;
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      const countdown = document.getElementById("countdown");
+
+      if (distance <= 0) {
+        countdown.innerHTML = "🎉 Happy Monthsary, Baby! 💖";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 💗 Floating hearts
+    const heartsContainer = document.getElementById("hearts");
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 10 + "px";
+      heart.innerHTML = "💗";
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 300);
+
+    // 🎵 Music Controls
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("music-btn");
+    let isPlaying = false;
+
+    musicBtn.addEventListener("click", () => {
+      if (!isPlaying) {
+        bgm.play();
+        musicBtn.textContent = "🎵";
+        isPlaying = true;
+      } else {
+        bgm.pause();
+        musicBtn.textContent = "🔇";
+        isPlaying = false;
+      }
+    });
+
+    // 💌 Envelope open/close
+    const envelope = document.getElementById('envelope');
+    envelope.addEventListener('click', () => {
+      envelope.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
